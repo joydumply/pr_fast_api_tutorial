@@ -1,2 +1,1 @@
-# pr_fast_api_tutorial
-FastAPI tutorial from cource 
+# FastAPI tutorial from [cource](https://www.udemy.com/course/fastapi-the-complete-course/) 
