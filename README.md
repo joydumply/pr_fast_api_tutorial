@@ -5,6 +5,7 @@
 A RESTful API for managing a book collection built with FastAPI. Implements full CRUD operations with multiple filtering capabilities:
 
 **Features:**
+
 - `GET /books` - Retrieve all books
 - `GET /books/{book_title}` - Get a specific book by title (case-insensitive)
 - `GET /books/` - Filter books by category (query parameter)
@@ -14,4 +15,4 @@ A RESTful API for managing a book collection built with FastAPI. Implements full
 - `PUT /books/update_book` - Update an existing book by title
 - `DELETE /books/delete_book/{book_title}` - Remove a book by title
 
-All search operations use case-insensitive matching. The API manages an in-memory list of books with fields: title, author, and category. 
+All search operations use case-insensitive matching. The API manages an in-memory list of books with fields: title, author, and category.
