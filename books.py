@@ -9,6 +9,7 @@ BOOKS = [
     {"title": "Title Four", "author": "Author Two", "category": "math"},
     {"title": "Title Four And One", "author": "Author Two", "category": "math"},
     {"title": "Naruto", "author": "Massasi Kishimoto", "category": "legend"},
+    {"title": "Boruto", "author": "Massasi Kishimoto", "category": "legend"},
 ]
 
 
@@ -50,6 +51,10 @@ async def read_author_category_by_query(book_author: str, cat: str):
             books_return.append(book)
 
     return books_return
+
+@app.get("/books/author/{author}")
+async def get_books_by_author(author: str):
+    return [b for b in BOOKS if b.get("author").casefold() == author.casefold()]
 
 
 @app.post("/books/create_book")
