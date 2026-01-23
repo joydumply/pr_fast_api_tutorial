@@ -56,7 +56,12 @@ def find_book_id(book: Book):
     return book
 
 @app.put("/books/update_book")
-def update_book(book:BookRequest):
+async def update_book(book:BookRequest):
     for i in range(len(BOOKS)):
         if BOOKS[i].id == book.id:
             BOOKS[i] = book
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    global BOOKS
+    BOOKS = [b for b in BOOKS if b.id != book_id]
