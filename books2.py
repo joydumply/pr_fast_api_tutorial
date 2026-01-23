@@ -23,19 +23,34 @@ async def get_all_books():
     return BOOKS
 
 
+@app.get("/books/{book_id}")
+async def get_book(book_id: int):
+    # Junior level
+    # for book in BOOKS:
+    #     if book.id == book_id:
+    #         return book
+
+    # Middle level
+    return next((b for b in BOOKS if b.id == book_id), None)
+
+
+@app.get("/books/")
+async def get_book_by_rating(book_rating: int):
+    return [b for b in BOOKS if b.rating == book_rating]
+
+
 @app.post("/create-book")
 def create_book(book_request: BookRequest):
-	new_book = find_book_id(Book(**book_request.model_dump()))
-	BOOKS.append(new_book)
+    new_book = find_book_id(Book(**book_request.model_dump()))
+    BOOKS.append(new_book)
+
 
 def find_book_id(book: Book):
-	
-	# if len(BOOKS) > 0:
-	# 	book.id = BOOKS[-1].id + 1
-	# else:
-	# 	book.id = 1
+    # if len(BOOKS) > 0:
+    # 	book.id = BOOKS[-1].id + 1
+    # else:
+    # 	book.id = 1
 
-	book.id = 1  if len(BOOKS) == 0 else BOOKS[-1].id + 1 # Тернарный оператор
-	
-	return book
-		
+    book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1  # Тернарный оператор
+
+    return book
