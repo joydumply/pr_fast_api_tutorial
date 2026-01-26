@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, Query, HTTPException
+from fastapi import FastAPI, Path, Query, HTTPException, status
 from models import Book, BookRequest
 
 app = FastAPI()
@@ -42,12 +42,12 @@ BOOKS = [
 ]
 
 
-@app.get("/books")
+@app.get("/books", status_code=status.HTTP_200_OK)
 async def get_all_books():
     return BOOKS
 
 
-@app.get("/books/{book_id}")
+@app.get("/books/{book_id}", status_code=status.HTTP_200_OK)
 async def get_book(book_id: int = Path(gt=0)):
     # Junior level
     # for book in BOOKS:
@@ -63,17 +63,17 @@ async def get_book(book_id: int = Path(gt=0)):
     return book
 
 
-@app.get("/books/")
+@app.get("/books/", status_code=status.HTTP_200_OK)
 async def get_book_by_rating(book_rating: int = Query(gt=0, lt=6)):
     return [b for b in BOOKS if b.rating == book_rating]
 
 
-@app.get("/books/year/")
+@app.get("/books/year/", status_code=status.HTTP_200_OK)
 async def get_books_by_year(published_year: int = Query(gt=-1, lt=2026)):
     return [b for b in BOOKS if b.published_year == published_year]
 
 
-@app.post("/create-book")
+@app.post("/create-book", status_code=status.HTTP_201_CREATED)
 def create_book(book_request: BookRequest):
     new_book = find_book_id(Book(**book_request.model_dump()))
     BOOKS.append(new_book)
@@ -90,7 +90,7 @@ def find_book_id(book: Book):
     return book
 
 
-@app.put("/books/update_book")
+@app.put("/books/update_book", status_code=status.HTTP_204_NO_CONTENT)
 async def update_book(book: BookRequest):
     change_flag = False
     for i in range(len(BOOKS)):
@@ -99,16 +99,16 @@ async def update_book(book: BookRequest):
             change_flag = True
 
     if not change_flag:
-        raise HTTPException(status_code=404, detail='Item not found')
+        raise HTTPException(status_code=404, detail="Item not found")
 
 
-@app.delete("/books/{book_id}")
+@app.delete("/books/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int = Path(gt=0)):
     global BOOKS
-    
-    book_exists = next((b for b in BOOKS if b.id==book_id), None)
+
+    book_exists = next((b for b in BOOKS if b.id == book_id), None)
 
     if not book_exists:
-        raise HTTPException(status_code=404, detail='Item not found')
+        raise HTTPException(status_code=404, detail="Item not found")
 
     BOOKS = [b for b in BOOKS if b.id != book_id]
