@@ -8,13 +8,15 @@ class Book:
     author: str
     description: str
     rating: int
+    published_year: int
 
-    def __init__(self, id, title, author, description, rating):
+    def __init__(self, id, title, author, description, rating, published_year):
         self.id = id
         self.title = title
         self.author = author
         self.description = description
         self.rating = rating
+        self.published_year = published_year
 
 
 class BookRequest(BaseModel):
@@ -23,6 +25,7 @@ class BookRequest(BaseModel):
     author: str = Field(min_length=1)
     description: str = Field(min_length=1, max_length=100)
     rating: int = Field(gt=-1, lt=6)  # GraterThen >=0 && LessThen<=5
+    published_year: int = Field(gt=-1, lt=2026)
     
     model_config = {
         "json_schema_extra": {
@@ -30,7 +33,8 @@ class BookRequest(BaseModel):
                 "title": "A new book",
                 "author": "Author Name",
                 "description": "A book description",
-                "rating": 5
+                "rating": 5,
+                "published_year": 2012
             }
         }
     }
